@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     },
     displayCard:{
       marginTop:100,
-      marginLeft: 600,
+      marginLeft: 0,
       position: 'relative',
       borderRadius: 16,
       padding: 12,
@@ -92,31 +92,31 @@ const useStyles = makeStyles((theme) => ({
 
 //function starts here
 const Admin = () => {
-  const [hotels, setHotels] = useState([])
+  const [institutions, setInstitutions] = useState([])
     const classes = useStyles();
 
-    const hotelRef = collection(db, 'hotels')
+    const tertiaryRef = collection(db, 'tertiaries')
 
-    const getHotels = async () =>{
-          const data =  await getDocs(hotelRef)
+    const getInstitutions = async () =>{
+          const data =  await getDocs(tertiaryRef)
          
          
           console.log( data.docs.map((results)=>(results.data())))
-          setHotels( data.docs.map((results)=>({...results.data(), id:results.id})))
+          setInstitutions( data.docs.map((results)=>({...results.data(), id:results.id})))
     }
 
     useEffect(()=>{
       
 
-      getHotels()
+      getInstitutions()
            
     },[])
      
      //delete fuction
-     function deleteHotel(id){
+     function deleteInst(id){
           alert('delete clicked ',{id})
 
-          const getDoc = doc(db,'hotels',id)
+          const getDoc = doc(db,'tertiaries',id)
           deleteDoc(getDoc).then(()=>{
             alert('deledted successfully')
           }).catch(err=>{
@@ -146,7 +146,10 @@ const Admin = () => {
                           Admin
                         </Typography>
                         <Button className={classes.addButton} variant="contained" color="primary" startIcon={<AddIcon />}>
-                            <Link className='naming' to='/addHotel'>ADD HOTELS</Link>
+                            <Link className='naming' to='/addInstitution'>ADD Institution</Link>
+                        </Button>
+                        <Button className={classes.addButton} variant="contained" color="primary" startIcon={<AddIcon />}>
+                            <Link className='naming' to='/resume'>ADD ResumeGuidelines</Link>
                         </Button>
                     </Toolbar>
                 </AppBar>
@@ -155,12 +158,12 @@ const Admin = () => {
 
            <div>
            <div className='tasks'>
-            <div><h2 style={{textAlign:"center", marginLeft:'-1%'}}>HOTELS</h2></div>
+            <div><h2 style={{textAlign:"center", marginLeft:'-1%'}}>INSTITUTIONS</h2></div>
             <div className='line'></div>
              
 
              {
-              hotels.length ==0 ? (
+              institutions.length ==0 ? (
 
                 
                 <Box sx={{ display: 'flex' }}>
@@ -177,20 +180,20 @@ const Admin = () => {
               ):(
            
                 
-                hotels.map((res)=>(
+                institutions.map((res)=>(
                 
                   
                   <>
                   {/* <h1>{  if (hotels == ''){} } no hotels</h1> */}
                    <Card className={classes.displayCard}>
             <div><h3 style={{color:'white'}}>Name: {res.name}</h3></div>
-            <div><h3 style={{color:'white'}}> Location: {res.location}</h3></div>
-            <div><h3 style={{color:'white'}}>Description: {res.description}</h3></div>
-            <div><h3 style={{color:'white'}}>Price: R{res.price}</h3></div>
+            <div><h3 style={{color:'white'}}> Link: {res.link}</h3></div>
+            <div><h3 style={{color:'white'}}>Course: {res.course}</h3></div>
+            <div><h3 style={{color:'white'}}>courseInfo: {res.courseInfo}</h3></div>
             <div><h3 style={{color:'white'}}><img src={res.picture}/></h3></div>
             <div>{res.picture}</div>
             <div className='buttons' >
-              <div>    <Button onClick={(e)=>{deleteHotel(res.id)}} variant="outlined" color="primary" startIcon={<DeleteIcon />} className={classes.deleteButton}>
+              <div>    <Button onClick={(e)=>{deleteInst(res.id)}} variant="outlined" color="primary" startIcon={<DeleteIcon />} className={classes.deleteButton}>
                 DELETE
               </Button></div>
                        

@@ -9,8 +9,9 @@ import {db} from '../config/firebase'
 import { useLocation, useNavigate } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
+import KeyboardBackspaceSharpIcon from '@mui/icons-material/KeyboardBackspaceSharp';
 
-import '../components/AddHotel.css'
+import '../components/AddInstitution.css'
 import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import { useParams } from 'react-router-dom';
 import { async } from '@firebase/util';
@@ -42,13 +43,18 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const Editpage = () => {
+    const navigate = useNavigate()
+       //for back button
+       const back=(()=>{
+        navigate("/")
+      })
 
     const {id} = useParams()
     console.log(id)
 
     //fuction to get single doc
     const getDocDetails = async(id)=>{
-        const docref = doc(db,'hotels',id)
+        const docref = doc(db,'tertiaries',id)
         try{
             const docSnap = await getDoc(docref);
              if(docSnap.exists()){
@@ -65,17 +71,22 @@ const Editpage = () => {
 
     //updateButton
     const update = async(id,_name)=>{
-        const hotelDoc = doc(db,'hotels',id)
+        const tertiaryDoc = doc(db,'tertiaries',id)
 
-        const hotel ={
+        const tertiary ={
             name: _name,
-            location:_location,
-            description:_descrip,
-            price:_price
+            link: _link,
+            course: _course,
+            courseInfo: _courseInfo,
+            Faculty: _faculty,
+            Address:_address,
+            telephone:_telephone,
+            prospectus:prospectus,
+            
     
         }
 
-        await updateDoc(hotelDoc,hotel).then(()=>{
+        await updateDoc(tertiaryDoc,tertiary).then(()=>{
             alert('updated successfully')
         }).catch(err=>{
             console.log(err)
@@ -88,10 +99,15 @@ const Editpage = () => {
 
     },[])
 
-            const [_name, setName] = useState("")
-           const [_location, setLocation] = useState("")
-           const [_descrip, setDescrip] = useState("")
-            const [_price, setPrice] = useState("")
+    const [_name, setName] = useState("")
+    const [_link, setLink] = useState("")
+    const [_faculty, setFaculty] = useState("")
+    const [_course, setCourse] = useState("")
+    const [_courseInfo, setCourseInfo] = useState("")
+    const [_address, setAddress] = useState("")
+    const [_telephone, setTelephone] = useState("")
+    const [prospectus, setProspectus] = useState("")
+    
           const classes = useStyles();
           const [details, setDetails] = useState([])
     return (
@@ -102,13 +118,15 @@ const Editpage = () => {
                           
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                          Edit Hotel
+                          Edit Institution Info
                         </Typography>
                         <Button className={classes.addButton} variant="contained" color="primary">
                             
                         </Button>
+                       
                     </Toolbar>
                 </AppBar>
+                <Button  className={classes.but}  variant="contained" color="primary" onClick={back} startIcon={<KeyboardBackspaceSharpIcon  />}></Button>
 
                 <div>
                 <div className='from'>
@@ -116,9 +134,13 @@ const Editpage = () => {
 
                     {/* <TextField id="outlined-basic" label={details.name} variant="standard" onChange={(e)=>setName(e.target.value)} /><br></br> */}
                     <TextField id="outlined-basic" Value={details._name} label="name" variant="standard" onChange={(e)=>setName(e.target.value)}  /><br></br>
-                    <TextField id="outlined-basic" value={details._location} label="location" variant="standard" onChange={(e)=>setLocation(e.target.value)}  /><br></br>
-                    <TextField id="outlined-basic" value={details._descrip} label="description" variant="standard" onChange={(e)=>setDescrip(e.target.value)} /><br></br>
-                    <TextField id="outlined-basic" value={_price} label="Amount" variant="standard" onChange={(e)=>setPrice(e.target.value)}  /><br></br>
+                    <TextField id="outlined-basic" value={details._link} label="link" variant="standard" onChange={(e)=>setLink(e.target.value)}  /><br></br>
+                    <TextField id="outlined-basic" value={details._course} label="course" variant="standard" onChange={(e)=>setCourse(e.target.value)} /><br></br>
+                    <TextField id="outlined-basic" value={_courseInfo} label="courseINFO" variant="standard" onChange={(e)=>setCourseInfo(e.target.value)}  /><br></br>
+                    <TextField id="outlined-basic" value={details._faculty} label="faculty" variant="standard" onChange={(e)=>setFaculty(e.target.value)} /><br></br>
+                    <TextField id="outlined-basic" value={details._telephone} label="telephone" variant="standard" onChange={(e)=>setTelephone(e.target.value)} /><br></br>
+                    <TextField id="outlined-basic" value={details._address} label="Address" variant="standard" onChange={(e)=>setAddress(e.target.value)} /><br></br>
+                    <TextField id="outlined-basic" value={details.prospectus} label="prospectus" variant="standard" onChange={(e)=>setProspectus(e.target.value)} /><br></br>
                     {/* <TextField id="outlined-basic" value={details._price} label="Amount" variant="standard" onChange={(e)=>{setPrice(details => ({ ...details, _price: e.target.value})  )}}  /><br></br> */}
      
                     <Button onClick={(e)=>{update(id,_name)}}  className={classes.but}  variant="contained" color="primary">
