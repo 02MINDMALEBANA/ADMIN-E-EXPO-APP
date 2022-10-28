@@ -91,24 +91,24 @@ const useStyles = makeStyles((theme) => ({
  
 
 //function starts here
-const Admin = () => {
-  const [institutions, setInstitutions] = useState([])
+const AdminCV = () => {
+  const [guidelines, setGuidelines] = useState([])
     const classes = useStyles();
 
-    const tertiaryRef = collection(db, 'tertiaries')
+    const collectionRef = collection(db, 'resume')
 
-    const getInstitutions = async () =>{
-          const data =  await getDocs(tertiaryRef)
+    const getGuidelines = async () =>{
+          const data =  await getDocs(collectionRef)
          
          
           console.log( data.docs.map((results)=>(results.data())))
-          setInstitutions( data.docs.map((results)=>({...results.data(), id:results.id})))
+          setGuidelines( data.docs.map((results)=>({...results.data(), id:results.id})))
     }
 
     useEffect(()=>{
       
 
-      getInstitutions()
+      getGuidelines()
            
     },[])
      
@@ -116,7 +116,7 @@ const Admin = () => {
      function deleteInst(id){
           alert('delete clicked ',{id})
 
-          const getDoc = doc(db,'tertiaries',id)
+          const getDoc = doc(db,'resume',id)
           deleteDoc(getDoc).then(()=>{
             alert('deledted successfully')
           }).catch(err=>{
@@ -143,30 +143,27 @@ const Admin = () => {
                           
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                          Admin
+                          Admin-RESUME GUIDELINES
                         </Typography>
                         <Button className={classes.addButton} variant="contained" color="primary" startIcon={<AddIcon />}>
-                            <Link className='naming' to='/addInstitution'>ADD Institution</Link>
+                            <Link className='naming' to='/'>BACK TO ADMIN</Link>
                         </Button>
                         <Button className={classes.addButton} variant="contained" color="primary" startIcon={<AddIcon />}>
                             <Link className='naming' to='/resume'>ADD ResumeGuidelines</Link>
                         </Button>
                     </Toolbar>
                 </AppBar>
-                <div>
-                <Link className='naming' to='/admincv'>VIEW RESUME GUIDELINES</Link>
-                </div>
 
 
 
            <div>
            <div className='tasks'>
-            <div><h2 style={{textAlign:"center", marginLeft:'-1%'}}>INSTITUTIONS</h2></div>
+            <div><h2 style={{textAlign:"center", marginLeft:'-1%'}}>GUIDELINES</h2></div>
             <div className='line'></div>
              
 
              {
-              institutions.length ==0 ? (
+              guidelines.length ==0 ? (
 
                 
                 <Box sx={{ display: 'flex' }}>
@@ -176,7 +173,6 @@ const Admin = () => {
            
                 
               </Box>
-           
         
               
 
@@ -184,22 +180,26 @@ const Admin = () => {
               ):(
            
                 
-                institutions.map((res)=>(
+                guidelines.map((res)=>(
                 
                   
                   <>
                   {/* <h1>{  if (hotels == ''){} } no hotels</h1> */}
                    <Card className={classes.displayCard}>
-            <div><h3 style={{color:'white'}}>Name: {res.name}</h3></div>
-            <div><h3 style={{color:'white'}}> Link: {res.link}</h3></div>
-            <div><h3 style={{color:'white'}}>Course: {res.course}</h3></div>
-            <div><h3 style={{color:'white'}}>courseInfo: {res.courseInfo}</h3></div>
-            <div><h3 style={{color:'white'}}>Faculty: {res.Faculty}</h3></div>
-            <div><h3 style={{color:'white'}}>Address: {res.Address}</h3></div>
-            <div><h3 style={{color:'white'}}>Telephone: {res.telephone}</h3></div>
-            <div><h3 style={{color:'white'}}><img src={res.picture}/></h3></div>
-            <div>{res.picture}</div>
-            <div> <a href = {res.prospectus} target = "_blank">Download Pdf</a></div>
+            <div><h3 style={{color:'white'}}> {res. ResumeGuidelines}</h3></div>
+            <div><h3 style={{color:'white'}}> {res.point2}</h3></div>
+            <div><h3 style={{color:'white'}}> {res.point21}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point22}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point23}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point3}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point3}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point4}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point41}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point42}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point43}</h3></div>
+            <div><h3 style={{color:'white'}}>{res.point5}</h3></div>
+          
+          
             <div className='buttons' >
               <div>    <Button onClick={(e)=>{deleteInst(res.id)}} variant="outlined" color="primary" startIcon={<DeleteIcon />} className={classes.deleteButton}>
                 DELETE
@@ -208,11 +208,11 @@ const Admin = () => {
 
 
               <div>
-                <Link to={`/edit/${res.id}`}>
+                {/* <Link to={`/editguide/${res.id}`}>
                 <Button  variant="outlined" color="primary" className={classes.editButton} startIcon={<UpdateIcon />}>
                 UPDATE
               </Button>
-                </Link>
+                </Link> */}
                  
               </div>
 
@@ -235,4 +235,4 @@ const Admin = () => {
     );
 }
 
-export default Admin;
+export default AdminCV;

@@ -82,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
         };
         addDoc(collectionReF, resume).then(()=>{
             alert("added successfully")
+            navigate("/admincv")
         }).catch((err)=>{
             console.log(err);
         })

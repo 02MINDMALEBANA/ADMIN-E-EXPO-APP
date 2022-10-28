@@ -13,6 +13,7 @@ import {db} from './config/firebase';
 import{getDocs} from 'firebase/firestore'
 
 import ResumeGuidelines from './components/resumeGuidelines';
+import AdminCV from './components/adminCV';
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
     
         <Route  path='/addInstitution' element={<AddInstitution />}></Route>
         <Route  path='/edit/:id' element={<Editpage/>}></Route>
+        {/* <Route  path='/editguide/:id' element={<Editpage/>}></Route> */}
+        <Route  path='/admincv' element={<AdminCV/>}></Route>
         <Route path='/resume' element={<ResumeGuidelines/>}></Route>
         
 
